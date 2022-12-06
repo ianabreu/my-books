@@ -3,6 +3,8 @@ import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import {Container, Logo, ButtonAdd, ButtonAddText} from './styles';
 import { useNavigation} from '@react-navigation/native';
 
+import getRealm from '../../services/realm';
+
 import Book from '../../components/Book';
 
 export default function Home() {
