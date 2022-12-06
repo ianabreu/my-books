@@ -10,7 +10,7 @@ cores:
 */ 
 
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView`
 flex: 1;
 background-color: #f2f2f3;
 padding-top: 15px;
@@ -19,11 +19,12 @@ padding-right: 15px;
 `;
 
 export const Input = styled.TextInput.attrs({
+    autoCapitalize: 'none', 
+    autoCorrect: false,
     elevation: 2,
 })`
 height: 40px;
 background-color: #fff;
-margin-bottom: 10px;
 border-radius: 5px;
 padding: 5px;
 font-size: 16px;
@@ -59,10 +60,16 @@ font-size: 17px;
 text-align: center;
 `;
 
-
-
-export const Price = styled.Text``;
-export const Description = styled.Text``;
+export const Description = styled.TextInput.attrs({
+    elevation: 2,
+})`
+height: 40px;
+background-color: #fff;
+border-radius: 5px;
+padding: 5px;
+font-size: 16px;
+color: #2b373e;
+`;
 
 
 
