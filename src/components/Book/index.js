@@ -13,7 +13,7 @@ import {
     
 } from './styles';
 
-export default function Book({ data, edit }) {
+export default function Book({ data, edit, deleteBook }) {
    
     return (
         <BookArea>
@@ -28,7 +28,7 @@ export default function Book({ data, edit }) {
                         <ButtonText>Editar</ButtonText>
                     </Button>
 
-                    <Button onPress={() => edit(data)}>
+                    <Button onPress={() => deleteBook(data)}>
                         <ButtonText>Excluir</ButtonText>
                     </Button>
                 </ButtonArea>

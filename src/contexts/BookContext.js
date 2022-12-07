@@ -41,19 +41,33 @@ export default function BookProvider({ children }) {
 
     async function editBook(response) {
         const realm = await getRealm();
-
+        
         realm.write(() => {
             realm.create('Book', response, 'modified')
         });
         const alterateData = await realm.objects('Book').sorted('id', false);
         setBooks(alterateData);
     }
+    async function removeBook(id) {
+        const realm = await getRealm();
+        realm.write(() => {
+            if (realm.objects('Book').filtered('id =' + id).length > 0) {
+                realm.delete(
+                    realm.objects('Book').filtered('id =' + id)
+                )
+            }
+        })
+        const actualBooks = await realm.objects('Book').sorted('id', false);
+        setBooks(actualBooks);
+
+    }
     
     return (
         <BookContext.Provider value={{
             saveBook,
             books,
-            editBook
+            editBook,
+            removeBook
         }}>
             {children}
         </BookContext.Provider>
