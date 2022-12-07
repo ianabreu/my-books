@@ -17,7 +17,7 @@ export default function Home() {
       style={{ padding: 5}}
       data={books}
       keyExtractor={item => String(item.id)}
-      renderItem={({item}) => (<Book data={item}/>)}
+      renderItem={({item}) => (<Book data={item} edit={editBook}/>)}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps='handled'
       />

@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { ScrollView, View } from 'react-native';
+import { Keyboard, ScrollView, View } from 'react-native';
 import { Container, Title, Description, Input, CenterView, Button, ButtonText } from './styles';
 import { BookContext } from '../../contexts/BookContext';
 
@@ -34,6 +34,7 @@ export default function New() {
             setVol('');
             setPrice('');
             setDescription(''); 
+            Keyboard.dismiss();
         } catch (error) {
             alert(error)
         }

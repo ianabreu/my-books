@@ -5,30 +5,16 @@ export const BookContext = createContext({});
 
 
 export default function BookProvider({ children }) {
-    const [books, setBooks] = useState([
-        { id: 1,
-          title: 'A Roda do Tempo',
-          serie: 'A Ascenção da Sombra',
-          author: 'Robert Jordan',
-          vol: 1,
-          price: 59.99,
-          description: 'Em A ascensão da sombra, Jordan imprime ainda mais suspense à série trazendo uma ameaça até então desconhecida à cidade de Tar Valon, lar das poderosas Aes Sedai. Mergulhados no perigo constante representado pelos Mantos-brancos, os Amigos das Trevas e os Trollocs, entre outros inimigos mortais, ninguém está seguro de qual rumo seguir. Movimentos profundos e inesperados que fazem de A Roda do Tempo uma das mais extraordinárias séries já escritas.',
-        },
-        { id: 2,
-          title: 'Conjurador',
-          serie: 'O Aprendiz',
-          author: 'Taran Matharu',
-          vol: 1,
-          price: 29.99,
-          description: 'Em A ascensão da sombra, Jordan imprime ainda mais suspense à série trazendo uma ameaça até então desconhecida à cidade de Tar Valon, lar das poderosas Aes Sedai. Mergulhados no perigo constante representado pelos Mantos-brancos, os Amigos das Trevas e os Trollocs, entre outros inimigos mortais, ninguém está seguro de qual rumo seguir. Movimentos profundos e inesperados que fazem de A Roda do Tempo uma das mais extraordinárias séries já escritas.',
-        },
-    ])
+    const [books, setBooks] = useState([]);
+    const [reloadBooks, setReloadBooks] = useState(true);
     useEffect(() => {
         async function loadBooks() {
-            
+            const realm = await getRealm();
+            const data = await realm.objects('Book');
+            setBooks(data);
         }
         loadBooks();
-    },[])
+    },[reloadBooks])
 
     async function saveBook(data) {
         const realm = await getRealm();
@@ -49,6 +35,7 @@ export default function BookProvider({ children }) {
         realm.write(() => {
             realm.create('Book', dataBook)
         });
+        setReloadBooks(!reloadBooks);
     }
     
     return (
