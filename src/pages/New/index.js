@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { ScrollView, View } from 'react-native';
 import { Container, Title, Description, Input, CenterView, Button, ButtonText } from './styles';
+import { BookContext } from '../../contexts/BookContext';
 
 export default function New() {
+    const {saveBook} = useContext(BookContext);
+
     const [title, setTitle] = useState('');
     const [serie, setSerie] = useState('');
     const [author, setAuthor] = useState('');
@@ -10,8 +13,20 @@ export default function New() {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
 
-    function addBook() {
-        alert('clicou')
+    async function addBook() {
+        if (title === '' || serie === '' || author === '' || vol === '' || price === '' || description === '') {
+           alert('Preençja todos os campos!');
+           return; 
+        }
+        const data = {
+            title: title,
+            serie: serie,
+            author: author,
+            vol: vol,
+            price: price,
+            description: description,
+        };
+        await saveBook(data)
     }
 
     return (
