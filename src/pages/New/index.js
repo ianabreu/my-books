@@ -1,10 +1,14 @@
-import React, {useState, useContext} from 'react';
-import { Keyboard, ScrollView, View } from 'react-native';
+import React, {useState, useContext, useEffect} from 'react';
+import { Keyboard, ScrollView, View, ToastAndroid } from 'react-native';
 import { Container, Title, Description, Input, CenterView, Button, ButtonText } from './styles';
 import { BookContext } from '../../contexts/BookContext';
+import { useNavigation } from '@react-navigation/native';
 
-export default function New() {
-    const {saveBook} = useContext(BookContext);
+export default function New({route}) {
+    const navigation = useNavigation();
+    const {saveBook, editBook} = useContext(BookContext);
+
+    const isEditing = route?.params?.data;
 
     const [title, setTitle] = useState('');
     const [serie, setSerie] = useState('');
@@ -13,9 +17,24 @@ export default function New() {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
 
+    
+    useEffect(() => {
+        function editInformations() {
+            if(isEditing) {
+              setTitle(isEditing.title);
+              setSerie(isEditing.serie);
+              setAuthor(isEditing.author);
+              setVol(isEditing.vol);
+              setPrice(isEditing.price);
+              setDescription(isEditing.description);
+            }
+        }
+        editInformations();
+    }, [])
+
     async function addBook() {
         if (title === '' || serie === '' || author === '' || vol === '' || price === '' || description === '') {
-           alert('Preençja todos os campos!');
+           alert('Preençha todos os campos!');
            return; 
         }
         try {
@@ -35,10 +54,43 @@ export default function New() {
             setPrice('');
             setDescription(''); 
             Keyboard.dismiss();
+            ToastAndroid.showWithGravity(
+                "Livro cadastrado com sucesso",
+                ToastAndroid.SHORT,
+                ToastAndroid.BOTTOM
+              );
         } catch (error) {
             alert(error)
         }
         
+    }
+    async function handleEditBook() {
+        if (title === '' || serie === '' || author === '' || vol === '' || price === '' || description === '') {
+            alert('Preençha todos os campos!');
+            return; 
+         }
+         try {
+            const response = {
+                id: isEditing.id,
+                title: title,
+                serie: serie,
+                author: author,
+                vol: vol,
+                price: price,
+                description: description,
+            };
+            await editBook(response);
+            ToastAndroid.showWithGravity(
+                "Livro editado com sucesso",
+                ToastAndroid.SHORT,
+                ToastAndroid.BOTTOM
+              );
+            navigation.navigate('Home');
+        } catch (error) {
+            alert(error)
+        }
+         
+
     }
 
     return (
@@ -71,13 +123,16 @@ export default function New() {
                 <Description placeholder='Descrição do livro...' value={description} onChangeText={text => setDescription(text)}/>
 
                 <CenterView>
+                    {isEditing ? (
+                    <Button onPress={handleEditBook}>
+                        <ButtonText>Editar</ButtonText>
+                    </Button>) :
+                    (
                     <Button onPress={addBook}>
                         <ButtonText>Cadastrar</ButtonText>
                     </Button>
+                    )}
 
-                    <Button>
-                        <ButtonText>Editar</ButtonText>
-                    </Button>
                 </CenterView>
             </Container>
         </ScrollView>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
 import {
     BookArea,
     BookInfo,
@@ -14,7 +13,8 @@ import {
     
 } from './styles';
 
-export default function Book({ data }) {
+export default function Book({ data, edit }) {
+   
     return (
         <BookArea>
                 <Title>{data.title}</Title>
@@ -24,11 +24,11 @@ export default function Book({ data }) {
                 <Price>R$ {data.price}</Price>
 
                 <ButtonArea>
-                    <Button onPress={() => {}}>
+                    <Button onPress={() => edit(data)}>
                         <ButtonText>Editar</ButtonText>
                     </Button>
 
-                    <Button onPress={() => {}}>
+                    <Button onPress={() => edit(data)}>
                         <ButtonText>Excluir</ButtonText>
                     </Button>
                 </ButtonArea>

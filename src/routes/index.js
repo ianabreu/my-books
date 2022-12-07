@@ -9,7 +9,7 @@ export default function Routes() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
-            <Stack.Screen name="New" component={New} options={{title: 'Cadastrar novo livro'}}/>
+            <Stack.Screen name="New" component={New} options={{title: 'Cadastrar livro'}}/>
         </Stack.Navigator>
     );
 }

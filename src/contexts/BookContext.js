@@ -7,10 +7,11 @@ export const BookContext = createContext({});
 export default function BookProvider({ children }) {
     const [books, setBooks] = useState([]);
     const [reloadBooks, setReloadBooks] = useState(true);
+   
     useEffect(() => {
         async function loadBooks() {
             const realm = await getRealm();
-            const data = await realm.objects('Book');
+            const data = await realm.objects('Book').sorted('id', false);
             setBooks(data);
         }
         loadBooks();
@@ -37,11 +38,22 @@ export default function BookProvider({ children }) {
         });
         setReloadBooks(!reloadBooks);
     }
+
+    async function editBook(response) {
+        const realm = await getRealm();
+
+        realm.write(() => {
+            realm.create('Book', response, 'modified')
+        });
+        const alterateData = await realm.objects('Book').sorted('id', false);
+        setBooks(alterateData);
+    }
     
     return (
         <BookContext.Provider value={{
             saveBook,
-            books
+            books,
+            editBook
         }}>
             {children}
         </BookContext.Provider>

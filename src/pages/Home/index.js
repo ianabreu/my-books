@@ -1,14 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import {Container, Logo, ButtonAdd, ButtonAddText} from './styles';
-import { useNavigation} from '@react-navigation/native';
+import { CommonActions, useNavigation} from '@react-navigation/native';
 
 import Book from '../../components/Book';
 import { BookContext } from '../../contexts/BookContext';
 
 export default function Home() {
   const navigation = useNavigation();
+
   const { books } = useContext(BookContext);
+
+  function editBook(data) {
+    navigation.navigate('New', {
+      data: data,
+    })
+  }
 
   return (
     <Container>
