@@ -1,4 +1,5 @@
-export default class BookSchema {
+import Realm from "realm";
+export default class BookSchema extends Realm.Object{
     static schema = {
         name: 'Book',
         primaryKey: 'id',

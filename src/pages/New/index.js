@@ -18,15 +18,26 @@ export default function New() {
            alert('Preençja todos os campos!');
            return; 
         }
-        const data = {
-            title: title,
-            serie: serie,
-            author: author,
-            vol: vol,
-            price: price,
-            description: description,
-        };
-        await saveBook(data)
+        try {
+            const data = {
+                title: title,
+                serie: serie,
+                author: author,
+                vol: vol,
+                price: price,
+                description: description,
+            };
+            await saveBook(data);
+            setTitle('');
+            setSerie('');
+            setAuthor('');
+            setVol('');
+            setPrice('');
+            setDescription(''); 
+        } catch (error) {
+            alert(error)
+        }
+        
     }
 
     return (
